@@ -1,0 +1,35 @@
+﻿@{ Layout = "_Layout"; ViewBag.Title = "Add a Rating";}
+
+<h2>Add a Rating <a asp-action="Index" class="btn btn-sm btn-secondary">Back</a></h2>
+<form asp-action="AddRating" method="post">
+    <div class="form-group">
+        <label for="Id">Id:</label>
+        <input class="form-control" name="Id" />
+    </div>
+    <div class="form-group">
+        <label for="RateID">Rate Id:</label>
+        <input class="form-control" name="RateID" />
+    </div>
+    <div class="form-group">
+        <label for="RateTxt">Rate Text:</label>
+        <input class="form-control" name="RateTxt" />
+    </div>
+    <div class="text-center panel-body">
+        <button type="submit" class="btn btn-sm btn-primary">Add</button>
+    </div>
+</form>
+
+@if (Model != null)
+{
+    <h2>Rating</h2>
+    <table class="table table-sm table-striped table-bordered m-2">
+        <thead><tr><th>Id</th><th>Rate ID</th><th>Rate Text</th></tr></thead>
+        <tbody>
+            <tr>
+                <td>@Model.Id</td>
+                <td>@Model.RateID </td>
+                <td>@Model.RateTxt </td>
+            </tr>
+        </tbody>
+    </table>
+}
