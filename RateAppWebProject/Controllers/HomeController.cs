@@ -48,6 +48,28 @@ namespace RateAppWebProject.Controllers
         [HttpPost]
         public async Task<IActionResult> AddRating(Ratings rating)
         {
+
+            List<Ratings> ratingListCount = new List<Ratings>();
+            using (var httpClient = new HttpClient())
+            {
+                using (var response = await httpClient.GetAsync("http://tcapprateapi.azurewebsites.net/api/Commands"))
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    ratingListCount = JsonConvert.DeserializeObject<List<Ratings>>(apiResponse);
+                }
+            }
+            int _runningListCount = new int();
+
+            foreach (Ratings aratingListCount in ratingListCount)
+            {
+                //int _runningListCount = new int();
+                _runningListCount += 1;
+            }
+            _runningListCount += 1;
+            rating.Id = _runningListCount;
+
+            //rating.States = GetSelectListItems(states);
+
             Ratings receivedRating = new Ratings();
             using (var httpClient = new HttpClient())
             {
