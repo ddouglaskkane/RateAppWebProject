@@ -2,10 +2,10 @@
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RateAppWebProject.Models;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace RateAppWebProject.Controllers
 {
@@ -43,7 +43,7 @@ namespace RateAppWebProject.Controllers
             return View(rating);
         }
 
-        public ViewResult AddRating() => View();
+        //public ViewResult AddRating() => View();
 
         [HttpPost]
         public async Task<IActionResult> AddRating(Ratings rating)
@@ -62,13 +62,11 @@ namespace RateAppWebProject.Controllers
 
             foreach (Ratings aratingListCount in ratingListCount)
             {
-                //int _runningListCount = new int();
                 _runningListCount += 1;
             }
             _runningListCount += 1;
             rating.Id = _runningListCount;
-
-            //rating.States = GetSelectListItems(states);
+            rating.RateID = ViewBag.RateID.Value;
 
             Ratings receivedRating = new Ratings();
             using (var httpClient = new HttpClient())
@@ -84,8 +82,23 @@ namespace RateAppWebProject.Controllers
             return View(receivedRating);
         }
 
+        public ActionResult AddRating()
+        {
+            //Creating generic list
+            List<SelectListItem> ObjList = new List<SelectListItem>()
+            {
+                new SelectListItem { Text = "Excelent", Value = "1" },
+                new SelectListItem { Text = "Moderate", Value = "2" },
+                new SelectListItem { Text = "Needs Improvement", Value = "3" }
+
+            };
+            //Assigning generic list to ViewBag
+            ViewBag.RateID = ObjList;
+
+            return View();
+
+        }
+
     }
-
-
 
 }
